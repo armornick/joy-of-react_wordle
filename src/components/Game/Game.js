@@ -8,11 +8,6 @@ import GuessInput from '../GuessInput/GuessInput';
 import GuessList from '../GuessList/GuessList';
 import GameOverBanner from '../GameOverBanner/GameOverBanner';
 
-// Pick a random word on every pageload.
-const initialAnswer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer: initialAnswer });
-
 const isGuessCorrect = (guess, answer) => {
   const result = checkGuess(guess, answer);
   for (const letter of result) {
@@ -24,7 +19,13 @@ const isGuessCorrect = (guess, answer) => {
 }
 
 function Game() {
-  const [answer, setAnswer] = useState(initialAnswer);
+  const [answer, setAnswer] = useState(() => {
+    // Pick a random word on every pageload.
+    const initialAnswer = sample(WORDS);
+    // To make debugging easier, we'll log the solution in the console.
+    console.info({ answer: initialAnswer });
+    return initialAnswer;
+  });
   const [guesses, setGuesses] = useState([]);
   const [gameState, setGameState] = useState({ state: 'running' });
   
