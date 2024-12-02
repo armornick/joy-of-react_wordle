@@ -1,7 +1,34 @@
 import React, { useState } from 'react';
 
-function GuessInput({ submitGuess }) {
+const ALL_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+const VirtualKeyboard = ({ addLetter, guessedChars }) => {
+
+  
+  return (
+    <div className='keyboard'>
+      {ALL_LETTERS.split('').map(letter => 
+        <button 
+          key={letter} 
+          className={`keyboard-key ${guessedChars[letter] ?? ''}`}
+          onClick={() => addLetter(letter)}
+        >
+            {letter}
+        </button>
+      )}
+    </div>
+  )
+}
+
+function GuessInput({ submitGuess, guessedChars }) {
   const [guess, setGuess] = useState('');
+
+  const addLetter = (letter) => {
+    if (guess.length >= 5) {
+      return;
+    }
+    setGuess(guess + letter);
+  };
 
   return (
     <form 
@@ -27,6 +54,7 @@ function GuessInput({ submitGuess }) {
           e => setGuess(e.target.value.toUpperCase())
         }
       />
+      <VirtualKeyboard addLetter={addLetter} guessedChars={guessedChars} />
     </form>
   );
 }

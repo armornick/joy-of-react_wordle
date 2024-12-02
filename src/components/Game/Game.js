@@ -20,14 +20,14 @@ const isGuessCorrect = (guess, answer) => {
 
 function Game() {
   const [answer, setAnswer] = useState(() => {
-    // Pick a random word on every pageload.
     const initialAnswer = sample(WORDS);
-    // To make debugging easier, we'll log the solution in the console.
     console.info({ answer: initialAnswer });
     return initialAnswer;
   });
+
   const [guesses, setGuesses] = useState([]);
   const [gameState, setGameState] = useState({ state: 'running' });
+  const [guessedChars, setGuessedChars] = useState({});
   
   const checkGameState = (guess) => {
     if (isGuessCorrect(guess, answer)) {
@@ -42,6 +42,12 @@ function Game() {
   const submitGuess = (guess) => {
     console.log({ guess });
     setGuesses([ ...guesses, guess ]);
+
+    const nextGuessedChars = { ...guessedChars };
+    const result = checkGuess(guess, answer);
+    result.forEach(({ letter, status }) => (nextGuessedChars[letter] = status));
+    setGuessedChars(nextGuessedChars);
+
     checkGameState(guess);
   }
 
@@ -59,7 +65,7 @@ function Game() {
       <GuessList guesses={guesses} answer={answer} />
       {
         gameState.state === 'running'
-          ? <GuessInput submitGuess={submitGuess} />
+          ? <GuessInput submitGuess={submitGuess} guessedChars={guessedChars} />
           : <GameOverBanner 
               win={gameState.win} 
               guesses={guesses} 

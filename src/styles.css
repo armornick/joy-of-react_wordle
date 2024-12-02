@@ -241,3 +241,30 @@ h1 {
   margin-top: 1rem;
   padding: 8px;
 }
+
+.keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1rem;
+  margin-inline: -2rem;
+}
+
+.keyboard-key {
+  padding: 4px 8px;
+  background-color: var(--color-gray-900);
+}
+
+.keyboard-key.correct {
+  background: var(--color-success);
+  color: white;
+}
+.keyboard-key.incorrect {
+  background: var(--color-gray-300);
+  color: white;
+}
+.keyboard-key.misplaced {
+  background: var(--color-warning);
+  color: white;
+}
