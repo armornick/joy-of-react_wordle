@@ -230,3 +230,14 @@ h1 {
     transform: translateY(0%);
   }
 }
+
+/*
+  Stretch Goal Styles
+*/
+.restart-game-button {
+  border: 2px solid currentColor;
+  display: block;
+  margin-inline: auto;
+  margin-top: 1rem;
+  padding: 8px;
+}

@@ -9,9 +9,9 @@ import GuessList from '../GuessList/GuessList';
 import GameOverBanner from '../GameOverBanner/GameOverBanner';
 
 // Pick a random word on every pageload.
-const answer = sample(WORDS);
+const initialAnswer = sample(WORDS);
 // To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
+console.info({ answer: initialAnswer });
 
 const isGuessCorrect = (guess, answer) => {
   const result = checkGuess(guess, answer);
@@ -24,6 +24,7 @@ const isGuessCorrect = (guess, answer) => {
 }
 
 function Game() {
+  const [answer, setAnswer] = useState(initialAnswer);
   const [guesses, setGuesses] = useState([]);
   const [gameState, setGameState] = useState({ state: 'running' });
   
@@ -43,13 +44,27 @@ function Game() {
     checkGameState(guess);
   }
 
+  const restartGame = () => {
+    const nextAnswer = sample(WORDS);
+    console.info({ answer: nextAnswer });
+
+    setAnswer(nextAnswer);
+    setGuesses([]);
+    setGameState({ state: 'running' });
+  }
+
   return (
     <>
       <GuessList guesses={guesses} answer={answer} />
       {
         gameState.state === 'running'
           ? <GuessInput submitGuess={submitGuess} />
-          : <GameOverBanner win={gameState.win} guesses={guesses} answer={answer} />
+          : <GameOverBanner 
+              win={gameState.win} 
+              guesses={guesses} 
+              answer={answer} 
+              restartGame={restartGame}
+            />
       }
     </>
   );
