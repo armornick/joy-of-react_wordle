@@ -15,11 +15,7 @@ function Game() {
   
   const submitGuess = (guess) => {
     console.log({ guess });
-    const newGuess = {
-      value: guess,
-      id: crypto.randomUUID(),
-    }
-    setGuesses([ ...guesses, newGuess ]);
+    setGuesses([ ...guesses, guess ]);
   }
 
   return (
